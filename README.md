@@ -46,3 +46,37 @@
 
     - Mood is a multi axis calculation:
         - We could make mood a vector-based system
+
+
+    - Breakdown of how actions are going to work:
+        Actions are going to be a list of lists
+
+        We can also check if it's a social interaction action or not: e.g. you can't play ping pong by yourself
+
+        We can also have actions that can only be done with certain members: e.g. you can go play video games with Bob, but Steve doesn't play video games
+        
+        Action{location(can be a list or just one), modifies(list of how it affects every value), time}
+
+
+    - Actions have different weights at different times of day
+
+    - Check if path from one location to another location is desirable for a given action
+
+    - Once / day actions?
+
+    - Do we want high values to be better or worse?
+        - Worse because we start at 0 in everything
+
+    - We should add a multiplier for time
+
+    - We also need to normalize the values
+
+    Typical Schedule:
+
+    Mon: wake up 6:30am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
+    Tue: wake up 6:30am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
+    Wed: wake up 6:30am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
+    Thur: wake up 6:30am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
+    Fri: wake up 6:30am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
+    Sat: wake up 9:00am, other: 9am - 1am
+    Sun: wake up 9:00am, other: 9am - 1am

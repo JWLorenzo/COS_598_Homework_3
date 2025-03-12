@@ -26,6 +26,9 @@ class Agent:
         self.action = action
         self.last_action = action
 
+    def clear_last_action(self):
+        self.last_action = None
+
     def update_action(self, cur_time):
         if self.action is not None:
             if self.action.is_done(cur_time):

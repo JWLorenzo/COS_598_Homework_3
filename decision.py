@@ -64,6 +64,8 @@ def tick_decisionsys(myagent: agent.Agent, curtime: ztime.Time):
                     )
                 else:
                     myagent.change_stat(stat, -myagent.get_stat(stat).get_value())
+            myagent.clear_last_action()
+
         decision = make_decisionsys(myagent, ACTIONS, STATS, curtime)
         if decision.get_msg() != "vibing":
             myagent.set_action(decision)

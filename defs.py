@@ -56,7 +56,6 @@ STATS = {
     "location": [
         "home",
         "work",
-        "daycare",
         "bar",
         "park",
         "jail",
@@ -65,8 +64,8 @@ STATS = {
     ],
     "hunger": list(range(0, 20)),
     "thirst": list(range(0, 20)),
-    "sleep": list(range(0, 5)),
-    "recreation": list(range(0, 2)),
+    "sleep": list(range(0, 8)),
+    "recreation": list(range(0, 10)),
     "motivation": list(range(0, 3)),
     "social": list(range(0, 20)),
     "money": list(range(0, 1000)),
@@ -99,35 +98,54 @@ STATUSES = {
 }
 
 ACTIONS = {
-    "vibing": ["anywhere", {}, 0],
+    "idle": ["anywhere", {}, 0],
     "eat": [
-        "anywhere",
-        {"hunger": -1, "bathroom_no_2": 1},
+        ["home", "work", "bar", "restaurant", "jail"],
+        {"hunger": -2, "bathroom_no_2": 1},
         30,
     ],
-    "drink": [
-        "anywhere",
-        {"thirst": -1, "bathroom_no_1": 1},
+    "drink_water": [
+        ["home", "work", "bar", "restaurant", "park", "jail"],
+        {"thirst": -2, "bathroom_no_1": 1},
+        10,
+    ],
+    "drink_beer": [
+        ["home", "bar"],
+        {"thirst": -2, "hunger": -1, "bathroom_no_1": 1, "motivation": 1, "money": 3},
         10,
     ],
     "sleep": [
-        "home",
+        ["home", "jail"],
         {
-            "sleep": -5,
+            "sleep": -8,
             "bathroom_no_2": 2,
             "bathroom_no_1": 2,
             "hunger": 1,
             "thirst": 1,
+            "hygeine": 3,
         },
         480,
     ],
-    "bathroom_1": ["home", {"bathroom_no_1": -5}, 6],
-    "bathroom_2": ["home", {"bathroom_no_2": -5}, 8],
+    "bathroom_1": [
+        ["home", "jail", "restaurant", "work"],
+        {"bathroom_no_1": -5, "hygeine": 1},
+        6,
+    ],
+    "bathroom_2": [
+        ["home", "jail", "restaurant", "work"],
+        {"bathroom_no_2": -5, "hygeine": 1},
+        8,
+    ],
     "bathroom_3": [
-        "home",
-        {"bathroom_no_2": -5, "bathroom_no_1": -5},
+        ["home", "jail", "restaurant", "work"],
+        {"bathroom_no_2": -5, "bathroom_no_1": -5, "hygeine": 1},
         10,
     ],
+    "video_game": [["home", "arcade"], {"recreation": -1}, 60],
+    "board_game": [["home", "jail"], {"recreation": -2}, 90],
+    "darts": [["bar"], {"recreation": -2}, 20],
+    "shower": [["home", "jail"], {"hygeine": -2}, 10],
+    "brush_teeth": [["home", "jail"], {"hygeine": -1}, 2],
 }
 
 
