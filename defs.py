@@ -99,16 +99,16 @@ STATUSES = {
 }
 
 ACTIONS = {
-    "vibing": ["anywhere", {}, ztime.Time(0)],
+    "vibing": ["anywhere", {}, 0],
     "eat": [
         "anywhere",
         {"hunger": -1, "bathroom_no_2": 1},
-        ztime.Time(30),
+        30,
     ],
     "drink": [
         "anywhere",
         {"thirst": -1, "bathroom_no_1": 1},
-        ztime.Time(10),
+        10,
     ],
     "sleep": [
         "home",
@@ -119,14 +119,14 @@ ACTIONS = {
             "hunger": 1,
             "thirst": 1,
         },
-        ztime.Time(480),
+        480,
     ],
-    "bathroom_1": ["home", {"bathroom_no_1": -5}, ztime.Time(6)],
-    "bathroom_2": ["home", {"bathroom_no_2": -5}, ztime.Time(8)],
+    "bathroom_1": ["home", {"bathroom_no_1": -5}, 6],
+    "bathroom_2": ["home", {"bathroom_no_2": -5}, 8],
     "bathroom_3": [
         "home",
         {"bathroom_no_2": -5, "bathroom_no_1": -5},
-        ztime.Time(10),
+        10,
     ],
 }
 
