@@ -68,8 +68,8 @@ STATS = {
     "recreation": list(range(0, 10)),
     "motivation": list(range(0, 3)),
     "social": list(range(0, 20)),
-    "money": list(range(0, 1000)),
-    "hygeine": list(range(0, 5)),
+    "debt": list(range(0, 1000)),
+    "hygiene": list(range(0, 5)),
     "bathroom_no_1": list(range(0, 20)),
     "bathroom_no_2": list(range(0, 20)),
 }
@@ -111,7 +111,7 @@ ACTIONS = {
     ],
     "drink_beer": [
         ["home", "bar"],
-        {"thirst": -2, "hunger": -1, "bathroom_no_1": 1, "motivation": 1, "money": 3},
+        {"thirst": -2, "hunger": -1, "bathroom_no_1": 1, "motivation": -1, "debt": 3},
         10,
     ],
     "sleep": [
@@ -122,30 +122,30 @@ ACTIONS = {
             "bathroom_no_1": 2,
             "hunger": 1,
             "thirst": 1,
-            "hygeine": 3,
+            "hygiene": 3,
         },
         480,
     ],
     "bathroom_1": [
         ["home", "jail", "restaurant", "work"],
-        {"bathroom_no_1": -5, "hygeine": 1},
+        {"bathroom_no_1": -5, "hygiene": 1},
         6,
     ],
     "bathroom_2": [
         ["home", "jail", "restaurant", "work"],
-        {"bathroom_no_2": -5, "hygeine": 1},
+        {"bathroom_no_2": -5, "hygiene": 1},
         8,
     ],
     "bathroom_3": [
         ["home", "jail", "restaurant", "work"],
-        {"bathroom_no_2": -5, "bathroom_no_1": -5, "hygeine": 1},
+        {"bathroom_no_2": -5, "bathroom_no_1": -5, "hygiene": 1},
         10,
     ],
     "video_game": [["home", "arcade"], {"recreation": -1}, 60],
     "board_game": [["home", "jail"], {"recreation": -2}, 90],
     "darts": [["bar"], {"recreation": -2}, 20],
-    "shower": [["home", "jail"], {"hygeine": -2}, 10],
-    "brush_teeth": [["home", "jail"], {"hygeine": -1}, 2],
+    "shower": [["home", "jail"], {"hygiene": -2}, 10],
+    "brush_teeth": [["home", "jail"], {"hygiene": -1}, 2],
 }
 
 

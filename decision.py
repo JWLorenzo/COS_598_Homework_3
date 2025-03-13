@@ -48,25 +48,33 @@ def tick_decisionsys(myagent: agent.Agent, curtime: ztime.Time):
     # print(myagent.get_action())
 
     if myagent.is_idle():
-        if myagent.last_action != None and myagent.last_action.get_msg() != "vibing":
+        if myagent.last_action != None and myagent.last_action.get_msg() != "idle":
             for stat in list(STATS.keys())[1:]:
                 # print("checking")
                 # print(myagent.get_stat(stat).get_value())
                 # print(myagent.last_action.get_msg())
                 # print(ACTIONS.get(myagent.last_action))
-                if (
-                    myagent.get_stat(stat).get_value()
-                    + ACTIONS.get(myagent.last_action.get_msg())[1].get(stat, 0)
-                    >= 0
+                calculated_total = myagent.get_stat(stat).get_value() + ACTIONS.get(
+                    myagent.last_action.get_msg()
+                )[1].get(stat, 0)
+                if calculated_total >= 0 and calculated_total < len(
+                    myagent.get_stat(stat).values
                 ):
                     myagent.change_stat(
                         stat, ACTIONS.get(myagent.last_action.get_msg())[1].get(stat, 0)
                     )
                 else:
-                    myagent.change_stat(stat, -myagent.get_stat(stat).get_value())
+                    if calculated_total < len(myagent.get_stat(stat).values):
+                        myagent.change_stat(stat, -myagent.get_stat(stat).get_value())
+                    else:
+                        myagent.change_stat(
+                            stat,
+                            len(myagent.get_stat(stat).values)
+                            - myagent.get_stat(stat).get_value(),
+                        )
             myagent.clear_last_action()
 
         decision = make_decisionsys(myagent, ACTIONS, STATS, curtime)
-        if decision.get_msg() != "vibing":
+        if decision.get_msg() != "idle":
             myagent.set_action(decision)
             # print(myagent.get_action().get_msg())
