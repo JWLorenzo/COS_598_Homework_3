@@ -98,21 +98,43 @@ STATUSES = {
 }
 
 ACTIONS = {
-    "idle": ["anywhere", {}, 0],
+    "idle": ["anywhere", {}, 0, []],
     "eat": [
         ["home", "work", "bar", "restaurant", "jail"],
-        {"hunger": -2, "bathroom_no_2": 1},
+        {"hunger": -2, "bathroom_no_2": 2},
         30,
+        ["hunger", "recreation"],
     ],
     "drink_water": [
         ["home", "work", "bar", "restaurant", "park", "jail"],
-        {"thirst": -2, "bathroom_no_1": 1},
+        {"thirst": -2, "bathroom_no_1": 2},
         10,
+        ["thirst", "recreation"],
     ],
     "drink_beer": [
         ["home", "bar"],
-        {"thirst": -2, "hunger": -1, "bathroom_no_1": 1, "motivation": -1, "debt": 3},
+        {
+            "thirst": -2,
+            "hunger": -1,
+            "bathroom_no_1": 2,
+            "bathroom_no_2": 1,
+            "motivation": -1,
+            "debt": 3,
+        },
         10,
+        ["thirst", "recreation", "motivation"],
+    ],
+    "drink_coffee": [
+        ["home", "bar"],
+        {
+            "thirst": -2,
+            "bathroom_no_1": 3,
+            "motivation": -2,
+            "debt": 1,
+            "sleep": -1,
+        },
+        10,
+        ["thirst", "sleep"],
     ],
     "sleep": [
         ["home", "jail"],
@@ -125,28 +147,42 @@ ACTIONS = {
             "hygiene": 3,
         },
         480,
+        ["sleep", "hunger", "recreation"],
     ],
     "bathroom_1": [
         ["home", "jail", "restaurant", "work"],
-        {"bathroom_no_1": -5, "hygiene": 1},
+        {"bathroom_no_1": -5},
         6,
+        [],
     ],
     "bathroom_2": [
         ["home", "jail", "restaurant", "work"],
-        {"bathroom_no_2": -5, "hygiene": 1},
+        {"bathroom_no_2": -5},
         8,
+        [],
     ],
     "bathroom_3": [
         ["home", "jail", "restaurant", "work"],
         {"bathroom_no_2": -5, "bathroom_no_1": -5, "hygiene": 1},
         10,
+        [],
     ],
-    "video_game": [["home", "arcade"], {"recreation": -1}, 60],
-    "board_game": [["home", "jail"], {"recreation": -2}, 90],
-    "darts": [["bar"], {"recreation": -2}, 20],
-    "shower": [["home", "jail"], {"hygiene": -2}, 10],
-    "brush_teeth": [["home", "jail"], {"hygiene": -1}, 2],
+    "video_game": [["home", "arcade"], {"recreation": -1}, 60, ["recreation"]],
+    "board_game": [["home", "jail"], {"recreation": -2}, 90, ["recreation"]],
+    "darts": [["bar"], {"recreation": -2}, 20, ["recreation"]],
+    "shower": [["home", "jail"], {"hygiene": -2}, 10, ["hygiene"]],
+    "brush_teeth": [["home", "jail"], {"hygiene": -1}, 2, ["hygiene"]],
 }
+
+BIO_STATS = [
+    "hunger",
+    "thirst",
+    "sleep",
+    "recreation",
+    "motivation",
+    "social",
+    "hygiene",
+]
 
 
 # Probably don't change this line.

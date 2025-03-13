@@ -73,10 +73,24 @@
 
     Typical Schedule:
 
-    Mon: wake up 6:30am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
-    Tue: wake up 6:30am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
-    Wed: wake up 6:30am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
-    Thur: wake up 6:30am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
-    Fri: wake up 6:30am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
+    Mon: wake up 6:00am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
+    Tue: wake up 6:00am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
+    Wed: wake up 6:00am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
+    Thur: wake up 6:00am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
+    Fri: wake up 6:00am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
     Sat: wake up 9:00am, other: 9am - 1am
     Sun: wake up 9:00am, other: 9am - 1am
+
+
+
+Objectives:
+
+Set up semi random hunger / thirst over the day
+
+Set up weighted activities at given times
+
+Set up activities that are time related
+
+Normalize the weights of activities
+
+Instantiate multiple agents

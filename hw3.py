@@ -168,13 +168,14 @@ def GameLoop(display, _agent, _time):
                 elif event.key == pygame.K_q:
                     display.run = False
 
-        # This function call checks the agent's action. If the
-        # action has expired, the agent is set to idle.
-        UpdateAgent(myagent, curtime)
+        if sim_speed != 0:
+            # This function call checks the agent's action. If the
+            # action has expired, the agent is set to idle.
+            UpdateAgent(myagent, curtime)
 
-        # Here is where the agent's behavior is checked.
-        # and if necessary, is switched to another action.
-        CheckDecisionSys(myagent, curtime)
+            # Here is where the agent's behavior is checked.
+            # and if necessary, is switched to another action.
+            CheckDecisionSys(myagent, curtime)
 
         display.screen.fill(BG_COLOR)
 
