@@ -88,5 +88,3 @@ Objectives:
 Instantiate multiple agents
 
 Implement emotion system
-
-Implement drive action to change locations

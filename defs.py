@@ -68,10 +68,10 @@ STATS = {
     "recreation": list(range(0, 10)),
     "motivation": list(range(0, 3)),
     "social": list(range(0, 20)),
-    "debt": list(range(0, 1000)),
+    "debt": list(range(0, 40)),
     "hygiene": list(range(0, 5)),
-    "bathroom_no_1": list(range(0, 20)),
-    "bathroom_no_2": list(range(0, 20)),
+    "bladder": list(range(0, 20)),
+    "colon": list(range(0, 20)),
 }
 
 STATUSES = {
@@ -109,13 +109,21 @@ STATUSES = {
 ACTIONS = {
     "drive": [
         ["anywhere"],
-        {},
+        {"debt": 1},
         30,
         [],
         [
             [],
-            [],
-            (),
+            [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+            ],
+            (1, 1),
         ],
     ],
     "idle": [
@@ -131,7 +139,7 @@ ACTIONS = {
     ],
     "eat_work": [
         ["work"],
-        {"hunger": -2, "bathroom_no_2": 2},
+        {"hunger": -2, "colon": 2},
         30,
         ["hunger", "recreation"],
         [
@@ -143,23 +151,40 @@ ACTIONS = {
                 "Thursday",
                 "Friday",
             ],
-            (math.inf, 0.9),
+            (math.inf, 0.01),
+        ],
+    ],
+    "drink_water_work": [
+        ["work"],
+        {"thirst": -2, "bladder": 2, "social": -1},
+        10,
+        ["thirst", "recreation"],
+        [
+            [7, 8, 9, 10, 11, 13, 14, 15, 16],
+            [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+            ],
+            (math.inf, 0.01),
         ],
     ],
     "eat_dinner": [
         ["home", "bar", "restaurant", "jail"],
-        {"hunger": -3, "bathroom_no_2": 2},
+        {"hunger": -3, "colon": 2},
         30,
         ["hunger", "recreation"],
         [
             [17, 18, 19, 20, 21, 22],
             [],
-            (1.5, 1),
+            (1.5, 0.9),
         ],
     ],
     "drink_water": [
         ["home", "work", "bar", "restaurant", "park", "jail"],
-        {"thirst": -2, "bathroom_no_1": 2},
+        {"thirst": -2, "bladder": 2},
         10,
         ["thirst", "recreation"],
         [
@@ -169,12 +194,12 @@ ACTIONS = {
         ],
     ],
     "drink_beer": [
-        ["home", "bar"],
+        ["bar"],
         {
             "thirst": -2,
             "hunger": -1,
-            "bathroom_no_1": 2,
-            "bathroom_no_2": 1,
+            "bladder": 2,
+            "colon": 1,
             "motivation": -1,
             "debt": 3,
         },
@@ -183,14 +208,14 @@ ACTIONS = {
         [
             [17, 18, 19, 20, 21, 22],
             [],
-            (1.5, 1),
+            (2, 0.9),
         ],
     ],
     "drink_coffee": [
         ["home", "work"],
         {
             "thirst": -2,
-            "bathroom_no_1": 3,
+            "bladder": 3,
             "motivation": -2,
             "debt": 1,
             "sleep": -1,
@@ -198,32 +223,35 @@ ACTIONS = {
         10,
         ["thirst", "sleep"],
         [
+            [6, 7, 8, 9, 10, 11],
             [],
-            [],
-            (),
+            (1.5, 0.9),
         ],
     ],
     "sleep": [
         ["home", "jail"],
         {
             "sleep": -8,
-            "bathroom_no_2": 2,
-            "bathroom_no_1": 2,
+            "colon": 2,
+            "bladder": 2,
             "hunger": 1,
             "thirst": 1,
-            "hygiene": 3,
         },
         480,
         ["sleep", "hunger", "recreation"],
         [
-            [22, 23, 24, 0, 1],
+            [
+                22,
+                23,
+                24,
+            ],
             [],
-            (math.inf, 1),
+            (math.inf, 0.5),
         ],
     ],
     "bathroom_1": [
-        ["home", "jail", "restaurant", "work"],
-        {"bathroom_no_1": -5},
+        ["home", "jail", "restaurant", "bar", "work"],
+        {"bladder": -5},
         6,
         [],
         [
@@ -233,8 +261,8 @@ ACTIONS = {
         ],
     ],
     "bathroom_2": [
-        ["home", "jail", "restaurant", "work"],
-        {"bathroom_no_2": -5},
+        ["home", "jail", "restaurant", "bar", "work"],
+        {"colon": -5},
         8,
         [],
         [
@@ -244,8 +272,8 @@ ACTIONS = {
         ],
     ],
     "bathroom_3": [
-        ["home", "jail", "restaurant", "work"],
-        {"bathroom_no_2": -5, "bathroom_no_1": -5, "hygiene": 1},
+        ["home", "jail", "restaurant", "bar", "work"],
+        {"colon": -5, "bladder": -5, "hygiene": 1},
         10,
         [],
         [
@@ -262,7 +290,7 @@ ACTIONS = {
         [
             [17, 18, 19, 20, 21, 22],
             [],
-            (1, 1),
+            (math.inf, 0.9),
         ],
     ],
     "board_game": [
@@ -271,9 +299,9 @@ ACTIONS = {
         90,
         ["recreation"],
         [
+            [17, 18, 19, 20, 21, 22],
             [],
-            [],
-            (),
+            (math.inf, 0.9),
         ],
     ],
     "darts": [
@@ -284,7 +312,7 @@ ACTIONS = {
         [
             [17, 18, 19, 20, 21, 22],
             [],
-            (1.5, 1),
+            (math.inf, 0.9),
         ],
     ],
     "shower": [
@@ -309,13 +337,15 @@ ACTIONS = {
             (math.inf, 0.9),
         ],
     ],
-    "program (work)": [
+    "programming (job)": [
         ["work"],
-        {"debt": -2},
+        {
+            "debt": -2,
+        },
         60,
-        [],
+        ["social"],
         [
-            [8, 9, 10, 11, 13, 14, 15, 16],
+            [7, 8, 9, 10, 11, 13, 14, 15, 16],
             [
                 "Monday",
                 "Tuesday",
@@ -323,7 +353,7 @@ ACTIONS = {
                 "Thursday",
                 "Friday",
             ],
-            (math.inf, 0.9),
+            (math.inf, 0),
         ],
     ],
     "program (fun)": [
@@ -332,9 +362,9 @@ ACTIONS = {
         60,
         ["recreation"],
         [
+            [17, 18, 19, 20, 21, 22],
             [],
-            [],
-            (),
+            (1.5, 0.9),
         ],
     ],
 }

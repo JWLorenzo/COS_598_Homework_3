@@ -195,6 +195,7 @@ def GameLoop(display, _agent, _time):
 def main():
     display = init_display(800, 600)
     myagent = MakeAgent(AGENT_NAME, START_TIME)
+    myagent.change_stat("debt", 20)
     cur_time = ztime.Time(START_TIME)
     GameLoop(display, myagent, cur_time)
 
