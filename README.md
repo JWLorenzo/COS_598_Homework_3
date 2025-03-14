@@ -85,12 +85,8 @@
 
 Objectives:
 
-Set up semi random hunger / thirst over the day
-
-Set up weighted activities at given times
-
-Set up activities that are time related
-
-Normalize the weights of activities
-
 Instantiate multiple agents
+
+Implement emotion system
+
+Implement drive action to change locations

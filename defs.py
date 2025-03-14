@@ -97,19 +97,76 @@ STATUSES = {
     "anticipation": list(range(0, 20)),
 }
 
+
+# Breakdown of an action: "name": {[location(s)], {stats affected}, time, [halted stats during action], [[preferred hours],[preferred days],(mult outside times,mult inside times)]}
+"""                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday","""
 ACTIONS = {
-    "idle": ["anywhere", {}, 0, []],
-    "eat": [
-        ["home", "work", "bar", "restaurant", "jail"],
+    "drive": [
+        ["anywhere"],
+        {},
+        30,
+        [],
+        [
+            [],
+            [],
+            (),
+        ],
+    ],
+    "idle": [
+        ["anywhere"],
+        {},
+        0,
+        [],
+        [
+            [],
+            [],
+            (),
+        ],
+    ],
+    "eat_work": [
+        ["work"],
         {"hunger": -2, "bathroom_no_2": 2},
         30,
         ["hunger", "recreation"],
+        [
+            [12],
+            [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+            ],
+            (math.inf, 0.9),
+        ],
+    ],
+    "eat_dinner": [
+        ["home", "bar", "restaurant", "jail"],
+        {"hunger": -3, "bathroom_no_2": 2},
+        30,
+        ["hunger", "recreation"],
+        [
+            [17, 18, 19, 20, 21, 22],
+            [],
+            (1.5, 1),
+        ],
     ],
     "drink_water": [
         ["home", "work", "bar", "restaurant", "park", "jail"],
         {"thirst": -2, "bathroom_no_1": 2},
         10,
         ["thirst", "recreation"],
+        [
+            [],
+            [],
+            (),
+        ],
     ],
     "drink_beer": [
         ["home", "bar"],
@@ -123,9 +180,14 @@ ACTIONS = {
         },
         10,
         ["thirst", "recreation", "motivation"],
+        [
+            [17, 18, 19, 20, 21, 22],
+            [],
+            (1.5, 1),
+        ],
     ],
     "drink_coffee": [
-        ["home", "bar"],
+        ["home", "work"],
         {
             "thirst": -2,
             "bathroom_no_1": 3,
@@ -135,6 +197,11 @@ ACTIONS = {
         },
         10,
         ["thirst", "sleep"],
+        [
+            [],
+            [],
+            (),
+        ],
     ],
     "sleep": [
         ["home", "jail"],
@@ -148,30 +215,128 @@ ACTIONS = {
         },
         480,
         ["sleep", "hunger", "recreation"],
+        [
+            [22, 23, 24, 0, 1],
+            [],
+            (math.inf, 1),
+        ],
     ],
     "bathroom_1": [
         ["home", "jail", "restaurant", "work"],
         {"bathroom_no_1": -5},
         6,
         [],
+        [
+            [],
+            [],
+            (),
+        ],
     ],
     "bathroom_2": [
         ["home", "jail", "restaurant", "work"],
         {"bathroom_no_2": -5},
         8,
         [],
+        [
+            [],
+            [],
+            (),
+        ],
     ],
     "bathroom_3": [
         ["home", "jail", "restaurant", "work"],
         {"bathroom_no_2": -5, "bathroom_no_1": -5, "hygiene": 1},
         10,
         [],
+        [
+            [],
+            [],
+            (),
+        ],
     ],
-    "video_game": [["home", "arcade"], {"recreation": -1}, 60, ["recreation"]],
-    "board_game": [["home", "jail"], {"recreation": -2}, 90, ["recreation"]],
-    "darts": [["bar"], {"recreation": -2}, 20, ["recreation"]],
-    "shower": [["home", "jail"], {"hygiene": -2}, 10, ["hygiene"]],
-    "brush_teeth": [["home", "jail"], {"hygiene": -1}, 2, ["hygiene"]],
+    "video_game": [
+        ["arcade"],
+        {"recreation": -3},
+        60,
+        ["recreation"],
+        [
+            [17, 18, 19, 20, 21, 22],
+            [],
+            (1, 1),
+        ],
+    ],
+    "board_game": [
+        ["home", "jail"],
+        {"recreation": -2},
+        90,
+        ["recreation"],
+        [
+            [],
+            [],
+            (),
+        ],
+    ],
+    "darts": [
+        ["bar"],
+        {"recreation": -2, "social": -1},
+        20,
+        ["recreation"],
+        [
+            [17, 18, 19, 20, 21, 22],
+            [],
+            (1.5, 1),
+        ],
+    ],
+    "shower": [
+        ["home", "jail"],
+        {"hygiene": -2},
+        10,
+        ["hygiene"],
+        [
+            [6, 7, 20, 21, 22],
+            [],
+            (math.inf, 0.9),
+        ],
+    ],
+    "brush_teeth": [
+        ["home", "jail"],
+        {"hygiene": -1},
+        2,
+        ["hygiene"],
+        [
+            [6, 7, 20, 21, 22],
+            [],
+            (math.inf, 0.9),
+        ],
+    ],
+    "program (work)": [
+        ["work"],
+        {"debt": -2},
+        60,
+        [],
+        [
+            [8, 9, 10, 11, 13, 14, 15, 16],
+            [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+            ],
+            (math.inf, 0.9),
+        ],
+    ],
+    "program (fun)": [
+        ["home"],
+        {"recreation": -1},
+        60,
+        ["recreation"],
+        [
+            [],
+            [],
+            (),
+        ],
+    ],
 }
 
 BIO_STATS = [

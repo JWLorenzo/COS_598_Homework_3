@@ -9,7 +9,8 @@ class Agent:
         self.idle_message = idle_message
         self.action = action
         self.last_action = action
-        self.last_bio = ztime.Time(0)
+        self.last_bio = 0
+        self.location = ""
 
     def get_stat(self, stat_name):
         return self.stats[stat_name]
