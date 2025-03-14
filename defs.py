@@ -18,27 +18,14 @@ GAME_SPEEDS = [
 # Emotion system
 
 EMOTION_VECTORS = {
-    "joy": np.array([1, 1]),
-    "trust": np.array([0, 2]),
-    "fear": np.array([-1, 1]),
-    "surprise": np.array([-2, 0]),
-    "sadness": np.array([-1, -1]),
-    "disgust": np.array([0, -2]),
-    "anger": np.array([1, -1]),
-    "anticipation": np.array([2, 0]),
-}
-
-# This is not an exhaustive list because emotion is too complex to capture in vector form
-
-complex_emotions = {
-    "in love": EMOTION_VECTORS["joy"] + EMOTION_VECTORS["trust"],
-    "submissive": EMOTION_VECTORS["trust"] + EMOTION_VECTORS["fear"],
-    "in awe": EMOTION_VECTORS["fear"] + EMOTION_VECTORS["surprise"],
-    "disapproving": EMOTION_VECTORS["surprise"] + EMOTION_VECTORS["sadness"],
-    "remorseful": EMOTION_VECTORS["sadness"] + EMOTION_VECTORS["disgust"],
-    "contemptuous": EMOTION_VECTORS["disgust"] + EMOTION_VECTORS["anger"],
-    "aggressive": EMOTION_VECTORS["anticipation"] + EMOTION_VECTORS["anger"],
-    "optimistic": EMOTION_VECTORS["anticipation"] + EMOTION_VECTORS["joy"],
+    "joy": [np.array([1, 1]), True],
+    "trust": [np.array([0, 2]), True],
+    "surprise": [np.array([-2, 0]), True],
+    "anticipation": [np.array([2, 0]), True],
+    "sadness": [np.array([-1, -1]), False],
+    "disgust": [np.array([0, -2]), False],
+    "anger": [np.array([1, -1]), False],
+    "fear": [np.array([-1, 1]), False],
 }
 
 # Background and text color

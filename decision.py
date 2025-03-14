@@ -1,7 +1,7 @@
 import enum
 import ztime
 import action
-from defs import STATS, ACTIONS, BIO_STATS
+from defs import *
 import agent
 import math
 
@@ -79,13 +79,13 @@ def make_decisionsys(
                 best_Value = this_Value
                 best_Action = "drive"
                 myagent.location = actions.get(_action)[0][0]
-        print("chosen action", _action)
-        print("discontentment", this_Value)
+        # print("chosen action", _action)
+        # print("discontentment", this_Value)
     if "job" in best_Action:
         time_modifier = ztime.Time(actions.get(best_Action)[2] - curtime.minit())
     else:
         time_modifier = ztime.Time(actions.get(best_Action)[2])
-    print("final action", best_Action)
+    # print("final action", best_Action)
     chosen_Action = action.Action(best_Action, curtime, curtime.__add__(time_modifier))
     print("-" * 20)
     return chosen_Action
@@ -156,8 +156,39 @@ def update_stats(myagent: agent.Agent) -> None:
         myagent.clear_last_action()
 
 
+def update_emotion(myagent: agent.Agent, curtime: ztime.Time):
+    if (
+        (curtime.hour() % 2 == 0)
+        and (curtime.minit() == 0)
+        and (myagent.last_bio != curtime.hour())
+    ):
+        positive_moods = [
+            x for x in EMOTION_VECTORS.keys() if EMOTION_VECTORS.get(x)[1]
+        ]
+        negative_moods = [
+            x for x in EMOTION_VECTORS.keys() if not EMOTION_VECTORS.get(x)[1]
+        ]
+        for stat in list(STATS.keys())[1:]:
+            if (
+                myagent.get_stat(stat).get_value()
+                / (len(myagent.get_stat(stat).values) - 1)
+                < 0.5
+            ):
+                myagent.mood_vector += EMOTION_VECTORS.get(
+                    random.choice(positive_moods)
+                )[0]
+            else:
+                myagent.mood_vector += EMOTION_VECTORS.get(
+                    random.choice(negative_moods)
+                )[0]
+        magnitude = np.linalg.norm(myagent.mood_vector)
+        myagent.mood_vector = (myagent.mood_vector / magnitude).astype(int)
+        print("vector normalized", myagent.mood_vector)
+
+
 def tick_decisionsys(myagent: agent.Agent, curtime: ztime.Time):
     # print(curtime.hour())
+    update_emotion(myagent, curtime)
     bio_needs(myagent, curtime)
     if myagent.is_idle():
         update_stats(myagent)

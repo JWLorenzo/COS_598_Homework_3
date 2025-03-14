@@ -1,5 +1,6 @@
 import action
 import ztime
+import numpy as np
 
 
 class Agent:
@@ -11,6 +12,8 @@ class Agent:
         self.last_action = action
         self.last_bio = 0
         self.location = ""
+        self.mood = "joy"
+        self.mood_vector = np.array([1, 1])
 
     def get_stat(self, stat_name):
         return self.stats[stat_name]
