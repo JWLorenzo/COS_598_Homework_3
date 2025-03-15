@@ -4,8 +4,6 @@ import action
 from defs import *
 import agent
 import math
-
-## Make sure to remove this
 import random
 
 
