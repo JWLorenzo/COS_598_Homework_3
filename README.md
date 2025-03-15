@@ -1,5 +1,5 @@
 # COS 598_Homework_3
-- Name: Jacob Lorenz0
+- Name: Jacob Lorenzo
 - Date: 2/24/25 - 3/15/25
 - Assignment: 3
 - Instructor: Dr. Hutchinson
