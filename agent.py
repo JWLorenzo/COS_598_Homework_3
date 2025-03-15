@@ -11,9 +11,11 @@ class Agent:
         self.action = action
         self.last_action = action
         self.last_bio = 0
+        self.last_emo = 0
         self.location = ""
-        self.mood = "joy"
-        self.mood_vector = np.array([1, 1])
+        self.mood = "ambivalent"
+        self.mood_vector = np.array([0.0, 0.0], dtype=np.float64)
+        self.statuses = []
 
     def get_stat(self, stat_name):
         return self.stats[stat_name]

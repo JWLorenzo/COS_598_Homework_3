@@ -4,7 +4,28 @@
 - Assignment: 3
 - Instructor: Dr. Hutchinson
 
-# Notes
+# Writeup
+
+My goal with this system was to simulate someone's daily life. I decided to use a Goal-Oriented Action Planning (GOAP) system to determine the actions with the least cost. From there, I created a weight system to make certain actions more desirable or undesirable at different times, effectively making them exclusive during specific periods. For example, Monday–Friday, there’s a work action that, if attempted outside the designated period, has infinite discontentment associated with it. But within the period, it has a value of 0, making it nearly exclusive.
+
+After implementing GOAP, I expanded the system by adding automated biological modifiers that adjust stats to drive behavior. I also made the system easily scalable by tying all functionality to defs.py. Adding more behaviors is as simple as defining new actions, locations, or emotions. The system automatically accounts for them.
+
+To refine decision-making, I added action requirements like location locking and time-of-day constraints. I also implemented a special "drive" action that tacks on a 30-minute time penalty and a 1 debt STAT penalty to move between locations. If an action isn’t valid at the current location, the system checks whether driving would make it viable. If so, it updates the best action accordingly.
+
+I tried to keep the system as “hack”-free as possible by generalizing actions. The only hardcoded exceptions are for driving, paying fines, and sleeping. Those could have been generalized, but doing so would bloat the dictionary entries by instantiating more data structures within each value.
+
+To make the experience feel more immersive, I included statuses and moods for the player. If stats exceed certain thresholds, they get statuses like "drunk," "broke," or "tired." Emotions work similarly but are semi-randomized, using a lambda function to determine the best-fitting mood based on the current state vector.
+
+The biggest improvement I see right now is integrating other agents into the scene. I realized this would require significant reworking of hw3.py to handle multiple instantiated agents, so I opted to leave that out for now. If I were to implement it, I’d use a similar approach to locations and actions. If two agents are in the same location, actions exclusive to those agents would have the lowest discontentment, making them more likely to occur.
+
+Observations:
+
+The current agent weights lead to a lot of DUIs, which is… interesting behavior, to say the least.
+I haven’t observed long sequences of idle time, so it seems like the weights are working well in the current implementation.
+
+
+# Notes (pretty jumbled, but show the homework process)
+
 - Instantiating agent objects
     - If two agents are in the same area, have a social interaction
         - Could be positive or negative   
@@ -80,11 +101,3 @@
     Fri: wake up 6:00am, work(8am - 12pm, 1pm-5pm), other: 5pm-10:30
     Sat: wake up 9:00am, other: 9am - 1am
     Sun: wake up 9:00am, other: 9am - 1am
-
-
-
-Objectives:
-
-Instantiate multiple agents
-
-Implement emotion system

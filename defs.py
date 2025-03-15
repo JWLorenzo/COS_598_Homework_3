@@ -18,14 +18,30 @@ GAME_SPEEDS = [
 # Emotion system
 
 EMOTION_VECTORS = {
-    "joy": [np.array([1, 1]), True],
-    "trust": [np.array([0, 2]), True],
-    "surprise": [np.array([-2, 0]), True],
-    "anticipation": [np.array([2, 0]), True],
-    "sadness": [np.array([-1, -1]), False],
-    "disgust": [np.array([0, -2]), False],
-    "anger": [np.array([1, -1]), False],
-    "fear": [np.array([-1, 1]), False],
+    # neutral
+    "ambivalent": [np.array([0, 0]), None],
+    # Positive
+    "joyful": [np.array([1.0, 1.0]), True],
+    "trusting": [np.array([0.0, 2.0]), True],
+    "surprised": [np.array([-2.0, 1.0]), True],
+    "anticipating": [np.array([2.0, 0.5]), True],
+    "grateful": [np.array([1.0, 1.5]), True],
+    "hopeful": [np.array([1.5, 1.0]), True],
+    "content": [np.array([0.5, 0.5]), True],
+    "proud": [np.array([2.0, 2.0]), True],
+    "amused": [np.array([1.0, 0.5]), True],
+    "curious": [np.array([1.5, -0.5]), True],
+    # Negative Emotions
+    "sad": [np.array([-1.0, -1.0]), False],
+    "disgusted": [np.array([0.0, -2.0]), False],
+    "angered": [np.array([1.5, -1.5]), False],
+    "fearful": [np.array([-1.5, 1.5]), False],
+    "jealous": [np.array([1.0, -2.0]), False],
+    "guilty": [np.array([-1.5, -0.5]), False],
+    "ashamed": [np.array([-1.0, -1.5]), False],
+    "stressed": [np.array([2.0, -1.0]), False],
+    "lonely": [np.array([-2.0, -1.5]), False],
+    "bored": [np.array([-0.5, 0.0]), False],
 }
 
 # Background and text color
@@ -41,63 +57,190 @@ FG_COLOR = "black"
 # based on the theme/setting you imagine.
 STATS = {
     "location": [
-        "home",
-        "work",
-        "bar",
-        "park",
-        "jail",
-        "arcade",
-        "restaurant",
+        ["home", "work", "bar", "park", "jail", "arcade", "restaurant", "doctor"],
     ],
-    "hunger": list(range(0, 20)),
-    "thirst": list(range(0, 20)),
-    "sleep": list(range(0, 8)),
-    "recreation": list(range(0, 10)),
-    "motivation": list(range(0, 3)),
-    "social": list(range(0, 20)),
-    "debt": list(range(0, 40)),
-    "hygiene": list(range(0, 5)),
-    "bladder": list(range(0, 20)),
-    "colon": list(range(0, 20)),
-}
-
-STATUSES = {
-    "statuses": ["hungry", "tired", "dirty", "burnt-out", "drunk"],
-    "mood": [
-        "ambivalent",
-        "in love",
-        "submissive",
-        "in awe",
-        "disapproving",
-        "remorseful",
-        "contemptuous",
-        "aggressive",
-        "optimistic",
-    ],
-    "joy": list(range(0, 20)),
-    "trust": list(range(0, 20)),
-    "fear": list(range(0, 20)),
-    "surprise": list(range(0, 20)),
-    "sadness": list(range(0, 20)),
-    "disgust": list(range(0, 20)),
-    "anger": list(range(0, 20)),
-    "anticipation": list(range(0, 20)),
+    "hunger": [list(range(0, 20)), "hungry"],
+    "thirst": [list(range(0, 20)), "thirsty"],
+    "sleep": [list(range(0, 8)), "tired"],
+    "recreation": [list(range(0, 20)), "bored"],
+    "motivation": [list(range(0, 10)), "burnt-out"],
+    "social": [list(range(0, 20)), "solitary"],
+    "debt": [list(range(0, 40)), "broke"],
+    "hygiene": [list(range(0, 20)), "dirty"],
+    "bladder": [list(range(0, 20)), "gotta go #1"],
+    "colon": [list(range(0, 20)), "gotta go #2"],
+    "blood alcohol": [list(range(0, 10)), "drunk"],
+    "caffeine": [list(range(0, 10)), "jittery"],
 }
 
 
 # Breakdown of an action: "name": {[location(s)], {stats affected}, time, [halted stats during action], [[preferred hours],[preferred days],(mult outside times,mult inside times)]}
-"""                "Sunday",
+""" "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday","""
+ACTIONS = {
+    "driving": [
+        ["anywhere"],
+        {"debt": 1},
+        30,
+        [],
+        [
+            [],
+            [],
+            (),
+        ],
+    ],
+    "walking": [
+        ["park"],
+        {"sleep": 1, "social": -2},
+        60,
+        [],
+        [
+            [],
+            [],
+            (),
+        ],
+    ],
+    "idle": [
+        ["anywhere"],
+        {},
+        10,
+        [],
+        [
+            [],
+            [],
+            (),
+        ],
+    ],
+    "eating at work": [
+        ["work"],
+        {"hunger": -4, "colon": 2},
+        30,
+        ["hunger", "recreation"],
+        [
+            [12],
+            [
                 "Monday",
                 "Tuesday",
                 "Wednesday",
                 "Thursday",
                 "Friday",
-                "Saturday","""
-ACTIONS = {
-    "drive": [
-        ["anywhere"],
-        {"debt": 1},
+            ],
+            (math.inf, 0.01),
+        ],
+    ],
+    "drinking water at work": [
+        ["work"],
+        {"thirst": -5, "bladder": 2, "social": -1},
+        10,
+        ["thirst", "recreation"],
+        [
+            [7, 8, 9, 10, 11, 13, 14, 15, 16],
+            [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+            ],
+            (math.inf, 0.01),
+        ],
+    ],
+    "eating dinner": [
+        ["home", "bar", "jail"],
+        {"hunger": -5, "colon": 2, "debt": 1},
         30,
+        ["hunger", "recreation"],
+        [
+            [17, 18, 19, 20, 21, 22],
+            [],
+            (1.5, 1),
+        ],
+    ],
+    "drinking water": [
+        ["home", "work", "bar", "restaurant", "park", "jail"],
+        {"thirst": -2, "bladder": 2},
+        10,
+        ["thirst", "recreation"],
+        [
+            [],
+            [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+            ],
+            (1, 1),
+        ],
+    ],
+    "drinking beer": [
+        ["bar"],
+        {
+            "thirst": -4,
+            "hunger": -1,
+            "bladder": 2,
+            "colon": 1,
+            "motivation": -1,
+            "debt": 1,
+            "blood alcohol": 4,
+        },
+        10,
+        ["thirst", "recreation", "motivation"],
+        [
+            [17, 18, 19, 20, 21],
+            [],
+            (2, 0.8),
+        ],
+    ],
+    "drinking coffee": [
+        ["home", "work"],
+        {
+            "thirst": -4,
+            "bladder": 3,
+            "motivation": -2,
+            "debt": 1,
+            "sleep": -1,
+            "caffeine": 4,
+        },
+        10,
+        ["thirst", "sleep"],
+        [
+            [6, 7, 8, 9, 10, 11],
+            [],
+            (1.5, 1),
+        ],
+    ],
+    "sleeping": [
+        ["home", "jail"],
+        {
+            "sleep": -8,
+            "colon": 2,
+            "bladder": 2,
+            "hunger": 1,
+            "thirst": 1,
+        },
+        480,
+        ["sleep", "hunger", "recreation", "motivation", "social"],
+        [
+            [
+                22,
+                23,
+            ],
+            [],
+            (math.inf, 0),
+        ],
+    ],
+    "going bathroom 1": [
+        ["home", "jail", "restaurant", "bar", "work"],
+        {"bladder": -5},
+        6,
         [],
         [
             [],
@@ -113,155 +256,29 @@ ACTIONS = {
             (1, 1),
         ],
     ],
-    "idle": [
-        ["anywhere"],
-        {},
-        0,
-        [],
-        [
-            [],
-            [],
-            (),
-        ],
-    ],
-    "eat_work": [
-        ["work"],
-        {"hunger": -2, "colon": 2},
-        30,
-        ["hunger", "recreation"],
-        [
-            [12],
-            [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-            ],
-            (math.inf, 0.01),
-        ],
-    ],
-    "drink_water_work": [
-        ["work"],
-        {"thirst": -2, "bladder": 2, "social": -1},
-        10,
-        ["thirst", "recreation"],
-        [
-            [7, 8, 9, 10, 11, 13, 14, 15, 16],
-            [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-            ],
-            (math.inf, 0.01),
-        ],
-    ],
-    "eat_dinner": [
-        ["home", "bar", "restaurant", "jail"],
-        {"hunger": -3, "colon": 2},
-        30,
-        ["hunger", "recreation"],
-        [
-            [17, 18, 19, 20, 21, 22],
-            [],
-            (1.5, 0.9),
-        ],
-    ],
-    "drink_water": [
-        ["home", "work", "bar", "restaurant", "park", "jail"],
-        {"thirst": -2, "bladder": 2},
-        10,
-        ["thirst", "recreation"],
-        [
-            [],
-            [],
-            (),
-        ],
-    ],
-    "drink_beer": [
-        ["bar"],
-        {
-            "thirst": -2,
-            "hunger": -1,
-            "bladder": 2,
-            "colon": 1,
-            "motivation": -1,
-            "debt": 3,
-        },
-        10,
-        ["thirst", "recreation", "motivation"],
-        [
-            [17, 18, 19, 20, 21, 22],
-            [],
-            (2, 0.9),
-        ],
-    ],
-    "drink_coffee": [
-        ["home", "work"],
-        {
-            "thirst": -2,
-            "bladder": 3,
-            "motivation": -2,
-            "debt": 1,
-            "sleep": -1,
-        },
-        10,
-        ["thirst", "sleep"],
-        [
-            [6, 7, 8, 9, 10, 11],
-            [],
-            (1.5, 0.9),
-        ],
-    ],
-    "sleep": [
-        ["home", "jail"],
-        {
-            "sleep": -8,
-            "colon": 2,
-            "bladder": 2,
-            "hunger": 1,
-            "thirst": 1,
-        },
-        480,
-        ["sleep", "hunger", "recreation"],
-        [
-            [
-                22,
-                23,
-                24,
-            ],
-            [],
-            (math.inf, 0.5),
-        ],
-    ],
-    "bathroom_1": [
-        ["home", "jail", "restaurant", "bar", "work"],
-        {"bladder": -5},
-        6,
-        [],
-        [
-            [],
-            [],
-            (),
-        ],
-    ],
-    "bathroom_2": [
+    "going bathroom 2": [
         ["home", "jail", "restaurant", "bar", "work"],
         {"colon": -5},
         8,
         [],
         [
             [],
-            [],
-            (),
+            [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+            ],
+            (1, 1),
         ],
     ],
-    "bathroom_3": [
-        ["home", "jail", "restaurant", "bar", "work"],
-        {"colon": -5, "bladder": -5, "hygiene": 1},
-        10,
+    "texting": [
+        ["anywhere"],
+        {"social": -1},
+        5,
         [],
         [
             [],
@@ -269,7 +286,37 @@ ACTIONS = {
             (),
         ],
     ],
-    "video_game": [
+    "therapy": [
+        ["doctor"],
+        {"motivation": -1, "debt": 2, "social": -1},
+        60,
+        ["motivation", "social"],
+        [
+            [17, 18],
+            ["Monday"],
+            (math.inf, 0),
+        ],
+    ],
+    "going bathroom 3": [
+        ["home", "jail", "restaurant", "bar", "work"],
+        {"colon": -5, "bladder": -5, "hygiene": 1},
+        10,
+        [],
+        [
+            [],
+            [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+            ],
+            (1, 1),
+        ],
+    ],
+    "playing a video game": [
         ["arcade"],
         {"recreation": -3},
         60,
@@ -277,10 +324,21 @@ ACTIONS = {
         [
             [17, 18, 19, 20, 21, 22],
             [],
-            (math.inf, 0.9),
+            (math.inf, 1),
         ],
     ],
-    "board_game": [
+    "eating a fine meal": [
+        ["restaurant"],
+        {"hunger": -3, "motivation": -1, "debt": 2, "colon": 1},
+        2,
+        ["recreation"],
+        [
+            [17, 18, 19, 20, 21, 22],
+            [],
+            (math.inf, 1),
+        ],
+    ],
+    "playing a board game": [
         ["home", "jail"],
         {"recreation": -2},
         90,
@@ -288,10 +346,10 @@ ACTIONS = {
         [
             [17, 18, 19, 20, 21, 22],
             [],
-            (math.inf, 0.9),
+            (math.inf, 1),
         ],
     ],
-    "darts": [
+    "playing darts": [
         ["bar"],
         {"recreation": -2, "social": -1},
         20,
@@ -299,38 +357,57 @@ ACTIONS = {
         [
             [17, 18, 19, 20, 21, 22],
             [],
-            (math.inf, 0.9),
+            (math.inf, 1),
         ],
     ],
-    "shower": [
+    "taking a shower": [
         ["home", "jail"],
-        {"hygiene": -2},
+        {"hygiene": -4},
         10,
         ["hygiene"],
         [
             [6, 7, 20, 21, 22],
             [],
-            (math.inf, 0.9),
+            (math.inf, 1),
         ],
     ],
-    "brush_teeth": [
+    "brushing teeth": [
         ["home", "jail"],
-        {"hygiene": -1},
+        {"hygiene": -2},
         2,
         ["hygiene"],
         [
             [6, 7, 20, 21, 22],
             [],
-            (math.inf, 0.9),
+            (math.inf, 1),
         ],
     ],
-    "programming (job)": [
+    "washing hands": [
+        ["home", "jail"],
+        {"hygiene": -1},
+        1,
+        ["hygiene"],
+        [
+            [],
+            [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+            ],
+            (math.inf, 1),
+        ],
+    ],
+    "programming at work": [
         ["work"],
         {
             "debt": -2,
         },
         60,
-        ["social"],
+        ["social", "recreation"],
         [
             [7, 8, 9, 10, 11, 13, 14, 15, 16],
             [
@@ -343,7 +420,7 @@ ACTIONS = {
             (math.inf, 0),
         ],
     ],
-    "program (fun)": [
+    "programming at home": [
         ["home"],
         {"recreation": -1},
         60,
@@ -351,7 +428,56 @@ ACTIONS = {
         [
             [17, 18, 19, 20, 21, 22],
             [],
-            (1.5, 0.9),
+            (1.5, 1),
+        ],
+    ],
+    "watching tv": [
+        ["home"],
+        {"recreation": -2},
+        60,
+        ["recreation"],
+        [
+            [],
+            ["Saturday", "Sunday"],
+            (math.inf, 1),
+        ],
+    ],
+    "feeding the ducks": [
+        ["park"],
+        {"recreation": -1, "social": -1},
+        60,
+        ["recreation"],
+        [
+            [],
+            ["Saturday", "Sunday"],
+            (math.inf, 1),
+        ],
+    ],
+    "watching cat videos": [
+        ["anywhere"],
+        {
+            "motivation": -1,
+        },
+        5,
+        ["recreation"],
+        [
+            [],
+            [],
+            (),
+        ],
+    ],
+    "pay fine": [
+        ["jail"],
+        {
+            "motivation": 1,
+            "debt": 5,
+        },
+        45,
+        [],
+        [
+            list(range(6, 12)),
+            [],
+            (math.inf, 0.7),
         ],
     ],
 }
@@ -364,6 +490,8 @@ BIO_STATS = [
     "motivation",
     "social",
     "hygiene",
+    "blood alcohol",
+    "caffeine",
 ]
 
 
@@ -372,5 +500,4 @@ STAT_NAMES = list(STATS.keys())
 
 # Change if you want. I hope I don't get
 # 40 submissions all about an agent named, Jimbo.
-AGENT_NAME = "obmiJ"
 START_TIME = 1800  # 6:00 AM Monday

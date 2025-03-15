@@ -73,7 +73,7 @@ def wrap_text(text, font, width):
 def MakeStats():
     stats = {}
     for n, vals in STATS.items():
-        astat = agent_stat.Stat(n, vals)
+        astat = agent_stat.Stat(n, vals[0])
         stats[n] = astat
     return stats
 
@@ -89,25 +89,40 @@ def UpdateAgent(myagent, curtime):
 
 def DrawUI(display, cur_time, myagent, winw, winh, stat_index, game_speed):
     display.draw_text(f"Current date/time: {str(cur_time)}", 10, 10, FG_COLOR)
-    display.draw_text(f"{myagent.get_name()}'s stats", 10, 40, FG_COLOR)
+    display.draw_text(f"{myagent.get_name()}'s mood: {myagent.mood}", 10, 40, FG_COLOR)
+
+    display.draw_text(f"{myagent.get_name()}'s stats", 10, 70, FG_COLOR)
     display.draw_text(f"Game Speed: {game_speed[0]}", 500, 10, FG_COLOR)
     display.draw_line((400, 0), (400, winh), "black", 2)
     display.draw_text(f"{myagent.get_name()}'s Action", 410, 40, FG_COLOR)
 
     wrapped_msg = wrap_text(myagent.get_action_message(), display.font, 380)
-    y = 70
+    y = 90
     for msg in wrapped_msg:
         display.draw_text(msg, 410, y, FG_COLOR)
         y += 25
 
-    y = 70
+    y = 100
     x = 10
     for i, name in enumerate(STAT_NAMES):
         s = myagent.get_stat(name)
         c = FG_COLOR
         if i == stat_index:
             c = "red"
-        display.draw_text(f"{name:<12} {s.get_value()}", x, y, c)
+        if name == "location":
+            display.draw_text(
+                f"{name:<12} {s.get_value()}",
+                x,
+                y,
+                c,
+            )
+        else:
+            display.draw_text(
+                f"{name:<12} {s.get_value()} {STATS.get(name)[1] if  STATS.get(name)[1] in myagent.statuses else ""}",
+                x,
+                y,
+                c,
+            )
         y += 25
         if y + 25 > winh:
             x += 200
@@ -194,7 +209,7 @@ def GameLoop(display, _agent, _time):
 
 def main():
     display = init_display(800, 600)
-    myagent = MakeAgent(AGENT_NAME, START_TIME)
+    myagent = MakeAgent("obmiJ", START_TIME)
     myagent.change_stat("debt", 20)
     cur_time = ztime.Time(START_TIME)
     GameLoop(display, myagent, cur_time)
