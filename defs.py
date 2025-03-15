@@ -19,29 +19,25 @@ GAME_SPEEDS = [
 
 EMOTION_VECTORS = {
     # neutral
-    "ambivalent": [np.array([0, 0]), None],
+    "ambivalent": [np.array([0.0, 0.0]), None],
     # Positive
     "joyful": [np.array([1.0, 1.0]), True],
-    "trusting": [np.array([0.0, 2.0]), True],
-    "surprised": [np.array([-2.0, 1.0]), True],
-    "anticipating": [np.array([2.0, 0.5]), True],
-    "grateful": [np.array([1.0, 1.5]), True],
-    "hopeful": [np.array([1.5, 1.0]), True],
-    "content": [np.array([0.5, 0.5]), True],
-    "proud": [np.array([2.0, 2.0]), True],
-    "amused": [np.array([1.0, 0.5]), True],
-    "curious": [np.array([1.5, -0.5]), True],
-    # Negative 
+    "trusting": [np.array([0.0, 1.0]), True],
+    "anticipating": [np.array([1.0, 0.0]), True],
+    "grateful": [np.array([0.5, 1.0]), True],
+    "hopeful": [np.array([1.0, 0.5]), True],
+    # Negative
     "sad": [np.array([-1.0, -1.0]), False],
-    "disgusted": [np.array([0.0, -2.0]), False],
-    "angered": [np.array([1.5, -1.5]), False],
-    "fearful": [np.array([-1.5, 1.5]), False],
-    "jealous": [np.array([1.0, -2.0]), False],
-    "guilty": [np.array([-1.5, -0.5]), False],
-    "ashamed": [np.array([-1.0, -1.5]), False],
-    "stressed": [np.array([2.0, -1.0]), False],
-    "lonely": [np.array([-2.0, -1.5]), False],
-    "bored": [np.array([-0.5, 0.0]), False],
+    "disgusted": [np.array([0.0, -1.0]), False],
+    "angered": [np.array([1.0, -1.0]), False],
+    "fearful": [np.array([-1.0, 1.0]), False],
+    "guilty": [np.array([-0.5, -1.0]), False],
+    "in awe": [np.array([-1.0, 0.5]), False],
+    "vulnerable": [np.array([-0.5, 1.0]), False],
+    "aggressive": [np.array([1.0, -0.5]), False],
+    "contempt": [np.array([0.5, -1.0]), False],
+    "disappointed": [np.array([-1.0, -0.5]), False],
+    "surprised": [np.array([-1.0, 0.0]), False],
 }
 
 # Background and text color

@@ -182,7 +182,7 @@ def update_emotion(myagent: agent.Agent, curtime: ztime.Time):
             if (
                 myagent.get_stat(stat).get_value()
                 / (len(myagent.get_stat(stat).values) - 1)
-                < 0.5
+                < 0.25
             ):
                 myagent.mood_vector += EMOTION_VECTORS.get(
                     random.choice(positive_moods)
